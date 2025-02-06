@@ -1,3 +1,5 @@
+![Star Wars Logo](./images/starwars.jpg)
+
 # Star Wars API Character/Movie Guide
 
 ## Assignment Overview
