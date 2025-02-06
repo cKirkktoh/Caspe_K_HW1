@@ -1,29 +1,52 @@
+/* General Styles */
 a, p, h1, h2, h3 {
     font-family: "Varela Round", sans-serif;
     color: #fff;
 }
 
-/* Paragraph Styles */
+/* Body Styling */
+body {
+    background-image: url("../images/bg.jpg");
+    height: 100vh;
+    background-size: cover;
+    font-family: 'Roboto', sans-serif;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Logo Styles */
+#logo {
+    display: block;
+    margin: 50px auto;
+}
+
+/* Horizontal Line */
+#h-line {
+    margin-bottom: -2px;
+}
+
+/* Content Section */
+#content {
+    margin-bottom: 200px;
+    padding: 20px;
+}
+
+/* Character Box */
+#character-box h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 50px;
+    font-weight: 600;
+    margin-top: 100px;
+    margin-bottom: 30px;
+}
+
+/* Paragraph Styling */
 p {
     margin-bottom: 35px;
     font-weight: 300;
     font-size: 18px;
     line-height: 40px;
-}
-
-/* Heading Styles */
-h2 {
-    margin-top: 100px;
-    font-weight: 500;
-    font-size: 50px;
-    margin-bottom: 30px;
-}
-
-h3 {
-    margin-top: 80px;
-    margin-bottom: 15px;
-    font-weight: 600;
-    font-size: 30px;
 }
 
 /* Loading Icon */
@@ -35,12 +58,16 @@ h3 {
 .color {
     color: #ff0;
     font-size: 20px;
+    margin-right: 10px;
 }
 
 /* Movie Box */
 #movie-box {
     display: none;
     margin-bottom: 100px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 8px;
 }
 
 .movie-opening {
@@ -58,30 +85,6 @@ h3 {
     }
 }
 
-/* Body Styling */
-body {
-    background-image: url("../images/bg.jpg");
-    height: 100vh;
-    background-size: cover;
-}
-
-/* Horizontal Line */
-#h-line {
-    margin-bottom: -2px;
-}
-
-/* Content Section */
-#content {
-    margin-bottom: 200px;
-}
-
-/* Background Overlay */
-.bg {
-    background-color: rgba(0, 0, 0, 0.3);
-    padding: 0 50px;
-    border-radius: 5px;
-}
-
 /* List Styles */
 ul li {
     list-style: none;
@@ -93,18 +96,47 @@ ul li a {
     color: #fff;
     margin-top: 50px;
     font-size: 25px;
+    position: relative; /* Needed for positioning the line */
+    padding-bottom: 5px; /* Adds space for the line */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
 }
 
 ul li a:hover {
-    color: #ff0;
+    color: #ff0; /* Change text color when hovering */
 }
 
-/* Logo */
-#logo {
-    margin-top: 50px;
+ul li a::after {
+    content: ""; /* Creates the line */
+    position: absolute;
+    bottom: 0; /* Places the line at the bottom of the link */
+    left: 0;
+    width: 100%; /* Makes the line stretch across the whole width */
+    height: 2px; /* Sets the line height */
+    background-color: #ff0; /* Line color */
+    transform: scaleX(0); /* Initially, the line is hidden (scaled to 0) */
+    transform-origin: bottom right; /* Makes the line grow from the right */
+    transition: transform 0.3s ease; /* Smooth transition for the line */
 }
+
+ul li a:hover::after {
+    transform: scaleX(1); /* Shows the line when hovered */
+    transform-origin: bottom left; /* Makes the line grow from the left */
+}
+
 
 /* Responsive Design */
+@media screen and (max-width: 768px) {
+    h2 {
+        font-size: 40px;
+    }
+    p {
+        font-size: 16px;
+    }
+    .movie-title {
+        font-size: 24px;
+    }
+}
+
 @media screen and (min-width: 1200px) {
     #h-line {
         margin-bottom: 100px;
