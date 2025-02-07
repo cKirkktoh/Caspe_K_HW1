@@ -6,7 +6,7 @@ a, p, h1, h2, h3 {
 
 /* Body Styling */
 body {
-    background-image: url("../images/bg.jpg");
+    background-image: url("../images/star-wars-bg.jpg");
     height: 100vh;
     background-size: cover;
     font-family: 'Roboto', sans-serif;
@@ -29,12 +29,18 @@ body {
 }
 
 /* Character Box */
+#character-box {
+    margin-bottom: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+}
 #character-box h2 {
     font-family: 'Oswald', sans-serif;
     font-size: 50px;
     font-weight: 600;
-    margin-top: 100px;
-    margin-bottom: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /* Paragraph Styling */
