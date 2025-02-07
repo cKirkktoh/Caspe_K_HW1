@@ -6,106 +6,96 @@
     const movieTemplate = document.querySelector('#movie-template');
     const baseUrl = `https://swapi.dev/api/`;
 
-    //adding greenSock SplitText
+    // Adding GreenSock SplitText
     gsap.registerPlugin(SplitText);
-
     const split = new SplitText('.split', { type: 'chars' });
 
-    const typingText = gsap.timeline()
+    gsap.timeline()
         .from(split.chars, {
-            duration: .1,
+            duration: 0.1,
             autoAlpha: 0,
             stagger: {
-                each: .1
+                each: 0.1
             }
         });
-    
-    //making the first ajax call
+
+    // Fetch Star Wars characters
     function getCharacters() {
-        
         fetch(`${baseUrl}/people`)
-        .then(response => response.json())
+            .then(response => response.json())
             .then(function (response) {
-            loadingIcon.style.display = 'none';
+                loadingIcon.style.display = 'none';
 
-            //stores description array(list of characters)
-            const characters = response.results;
-            const ul = document.createElement('ul');
+                const characters = response.results;
+                const ul = document.createElement('ul');
 
-            characters.forEach(character => {
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                // console.log(character.name);
-                a.textContent = character.name;
-                // console.log(character.films[0]);
-                a.dataset.link = character.films[0];
-                a.dataset.poster = `${character.name}.jpeg`;
+                characters.forEach((character, index) => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    
+                    a.textContent = character.name;
+                    a.dataset.link = character.films[0];
+                    a.dataset.characterImg = `images/${character.name.replace(/ /g, '_')}.jpeg`; // Character image
+                    a.dataset.moviePoster = `images/${index + 1}.jpeg`; // Movie poster (1-10)
 
-                
-                li.appendChild(a);
-                ul.appendChild(li);
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                });
 
-                
-            });
-            characterBox.appendChild(ul);
-        })
-        .then(function () {
-            const links = document.querySelectorAll('#character-box li a')
-            links.forEach(link => {
-                link.addEventListener('click', getInfo);
+                characterBox.appendChild(ul);
             })
-        })
-        
-        .catch(err => {
-            console.log(err);
-            // logs errors that occur during the fetch request.
-        }
-    )
-    
+            .then(function () {
+                const links = document.querySelectorAll('#character-box li a');
+                links.forEach(link => {
+                    link.addEventListener('click', getInfo);
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
     function getInfo(e) {
-        //console.log('getInfo called');
-        //console.log(this.dataset.link);
-        //console.log(this.dataset.poster);
         const bg = document.querySelector('#content');
         bg.classList.add('bg');
 
-        const secondUrl = this.dataset.link;
-        const posterSrc = this.dataset.poster;
+        const movieUrl = this.dataset.link;
+        const characterImageSrc = this.dataset.characterImg;
+        const moviePosterSrc = this.dataset.moviePoster;
+
         movieBox.style.display = 'block';
 
-
-        fetch(`${secondUrl}`)
-     
-        .then(response => response.json())
+        fetch(movieUrl)
+            .then(response => response.json())
             .then(function (response) {
-                //console.log(response);
-                //console.log(response.title);
+                movieCon.innerHTML = '';
 
-            movieCon.innerHTML = '';
-            //const InfoID = response.episode_id;
-            //console.log(InfoID);
-            const template = document.importNode(movieTemplate.content, true);
-            const movieTitle = template.querySelector('.movie-title');
-            const movieOpening = template.querySelector('.movie-opening');
-            const moviePoster = template.querySelector('.movie-poster');
+                const template = document.importNode(movieTemplate.content, true);
+                const movieTitle = template.querySelector('.movie-title');
+                const movieOpening = template.querySelector('.movie-opening');
+                const characterImg = template.querySelector('.character-img');
+                const moviePoster = template.querySelector('.movie-poster');
 
-            movieTitle.textContent = response.title;
-            movieOpening.textContent = response.opening_crawl;
-            moviePoster.src = `images/${posterSrc}`;
+                movieTitle.textContent = response.title;
+                movieOpening.textContent = response.opening_crawl;
+                characterImg.src = characterImageSrc;
+                moviePoster.src = moviePosterSrc;
 
-            movieCon.appendChild(template);
-                
+                // Handle missing images with a default placeholder
+                characterImg.onerror = function () {
+                    characterImg.src = "images/default_character.jpeg";
+                };
+                moviePoster.onerror = function () {
+                    moviePoster.src = "images/default_movie_poster.jpeg";
+                };
 
-
-        })
-        .catch(err => {
-            console.log(err);
-            //adds a message to user that is written in the DOM
-        })
+                movieCon.appendChild(template);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
-}
 
-//call the function to load list
-getCharacters();
-
+    // Call function to load character list
+    getCharacters();
 })();
