@@ -38,7 +38,3 @@ Kirk Caspe
 
 ## License
 MIT
-
-## License
-
-MIT
